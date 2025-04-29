@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zombeers - CoD Zombies Drinking Game Tracker</title>
+    <!-- Link External CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <!-- Link Google Fonts (can stay here or move to CSS import) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="app-container">
+        <header>
+            <h1><i class="icon icon-zombie"></i> ZOMBEERS <i class="icon icon-zombie"></i></h1>
+        </header>
+
+        <main>
+            <!-- Setup Screen -->
+            <section id="setup-screen" class="screen active">
+                <h2>Game Setup</h2>
+                <div>
+                    <input type="text" id="player-name-input" placeholder="Enter player name" aria-label="Player name">
+                    <button id="add-player-btn">Add Survivor</button>
+                </div>
+                <h3>Current Squad:</h3>
+                <ul id="player-list-setup">
+                    <!-- Player names will be added here by JS -->
+                </ul>
+                <button id="start-game-btn" disabled>Start Game Session</button>
+            </section>
+
+            <!-- Game Screen -->
+            <section id="game-screen" class="screen">
+                <div id="game-header">
+                    <span id="game-timer" aria-live="polite">00:00:00</span> <!-- Aria-live for screen readers -->
+                    <h2>Zombeers - In Progress</h2>
+                    <div class="header-buttons">
+                        <button id="options-btn">Settings</button>
+                        <button id="reset-game-btn" class="btn-danger">Reset Game</button>
+                        <button id="new-game-btn" class="btn-primary">New Game</button>
+                    </div>
+                </div>
+
+                <div id="players-container" aria-live="polite"> <!-- Announce player updates -->
+                    <!-- Player cards will be generated here by JS -->
+                </div>
+
+                <div id="game-info-sections">
+                    <section id="game-stats" class="info-section" aria-labelledby="game-stats-heading">
+                        <h3 id="game-stats-heading">Overall Stats</h3>
+                        <ul>
+                            <li>Total Points Earned: <span id="total-points-earned">0</span></li>
+                            <li>Total Points Spent: <span id="total-points-spent">0</span></li>
+                            <li>Total Beers Consumed: <span id="total-beers">0</span></li>
+                            <li>Total Shots Taken: <span id="total-shots">0</span></li>
+                            <li>Total Revives Used: <span id="total-revives">0</span></li>
+                        </ul>
+                    </section>
+                     <section id="leaderboard" class="info-section" aria-labelledby="leaderboard-heading">
+                         <h3 id="leaderboard-heading">Leaderboard</h3>
+                         <ol id="leaderboard-list">
+                             <!-- Leaderboard items -->
+                         </ol>
+                     </section>
+                    <section id="history-log" class="info-section" aria-labelledby="history-log-heading">
+                        <h3 id="history-log-heading">Activity Log</h3>
+                        <ul id="history-log-list">
+                            <!-- History items -->
+                        </ul>
+                    </section>
+                </div>
+            </section>
+        </main>
+
+        <!-- Options Panel (Modal) -->
+        <!-- Using 'dialog' element for better accessibility -->
+        <dialog id="options-panel" class="modal-dialog">
+             <button id="close-options-btn" class="modal-close-btn" aria-label="Close settings">&times;</button>
+            <h2>Game Settings</h2>
+            <form id="options-form" method="dialog"> <!-- Use form with method=dialog -->
+                <div class="options-grid">
+                    <label for="setting-points-beer">Points per Beer:</label>
+                    <input type="number" id="setting-points-beer" min="0">
+
+                    <label for="setting-points-shot">Points per Shot:</label>
+                    <input type="number" id="setting-points-shot" min="0">
+
+                    <label for="setting-points-revive">Points per Revive:</label>
+                    <input type="number" id="setting-points-revive" min="0">
+
+                    <label for="setting-cost-redeem">Redemption Cost:</label>
+                    <input type="number" id="setting-cost-redeem" min="0">
+
+                    <label for="setting-shot-limit">Shot Limit per Player:</label>
+                    <input type="number" id="setting-shot-limit" min="0">
+                </div>
+                <div id="options-buttons">
+                    <button id="save-settings-btn" type="submit">Save Settings</button> <!-- Use type=submit -->
+                     <button type="button" id="cancel-options-btn">Cancel</button> <!-- type=button prevents form submission -->
+                </div>
+            </form>
+        </dialog>
+
+        <!-- End Game Modal -->
+        <dialog id="end-game-modal" class="modal-dialog">
+            <button id="close-end-game-btn" class="modal-close-btn" aria-label="Close game summary">&times;</button>
+             <div class="modal-content">
+                 <h2>Game Over - Stats</h2>
+                 <div id="end-game-stats">
+                     <!-- Last game stats will be injected here -->
+                 </div>
+                 <div id="challenge-question">
+                     <label for="challenge-winner">Did anyone complete the challenge?</label>
+                     <select id="challenge-winner">
+                         <option value="none">None</option>
+                         <!-- Player names will be added here -->
+                     </select>
+                 </div>
+                 <button id="confirm-new-game-btn">Start Fresh Game</button>
+            </div>
+        </dialog>
+
+    </div> <!-- /app-container -->
+
+    <!-- Link External JavaScript - Use type="module" -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

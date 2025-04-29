@@ -1,0 +1,6 @@
+[cloudflared]
+name=cloudflared
+baseurl=https://pkg.cloudflare.com/cloudflared/rpm
+enabled=1
+gpgcheck=1
+gpgkey=https://pkg.cloudflare.com/cloudflare-main.gpg

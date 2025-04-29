@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-adsense-account" content="ca-pub-2780934461514036">
+    <title>Official Zombeers Tracker: Play Solo or Create Multiplayer Rooms for the best COD Zombies Drinking Game. How to Play Zombeers: Official Rules & Guide</title>
+    <!-- Favicon -->
+    <link rel="icon" href="site.png" type="image/png">
+    <!-- Link External CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <!-- Link Google Fonts (can stay here or move to CSS import) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2780934461514036"
+     crossorigin="anonymous"></script>
+    <!-- AMP Auto Ads Script -->
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+</head>
+<body>
+<!-- AMP Auto Ads Tag -->
+<amp-auto-ads type="adsense"
+        data-ad-client="ca-pub-2780934461514036">
+</amp-auto-ads>
+
+    <div class="app-container">
+        <header>
+            <img id="header-logo" src="zombeers.png" alt="Zombeers Logo">
+            <div id="room-info" class="room-info-bar">
+                <!-- Room code will be displayed here -->
+            </div>
+        </header>
+
+        <main>
+            <!-- Room Selection Screen -->
+            <section id="room-selection-screen" class="screen active">
+                <h2>Join or Create a Game Room</h2>
+                <div class="room-actions">
+                    <input type="text" id="room-code-input" placeholder="Enter Room Code (4 chars)" maxlength="4" aria-label="Room Code">
+                    <button id="join-room-btn">Join Room</button>
+                </div>
+                <p>OR</p>
+                <button id="create-room-btn">Create New Room</button>
+                <p id="room-error-message" class="error-message" aria-live="polite"></p>
+            </section>
+
+            <!-- Setup Screen (Now shown AFTER joining/creating a room) -->
+            <section id="setup-screen" class="screen">
+                <h2>Game Setup</h2>
+                <div>
+                    <input type="text" id="player-name-input" placeholder="Enter player name" aria-label="Player name">
+                    <button id="add-player-btn">Add Survivor</button>
+                </div>
+                <h3>Current Squad:</h3>
+                <ul id="player-list-setup">
+                    <!-- Player names will be added here by JS -->
+                </ul>
+                <button id="start-game-btn" disabled>Start Game Session</button>
+                <button id="leave-room-btn">Leave Room</button>
+            </section>
+
+            <!-- Game Screen -->
+            <section id="game-screen" class="screen">
+                <span id="game-timer" aria-live="polite">00:00:00</span> <!-- Aria-live for screen readers -->
+                <div id="game-header">
+                    <h2>Zombeers - In Progress</h2>
+                    <div class="header-buttons">
+                        <button id="options-btn">Settings</button>
+                        <!-- Reset Game now resets within the room -->
+                        <button id="reset-game-btn" class="btn-danger">Reset Session</button>
+                        <!-- New Game now goes back to setup within the room -->
+                        <button id="new-game-btn" class="btn-primary">New Game Setup</button>
+                        <button id="leave-room-btn-game">Leave Room</button>
+                    </div>
+                </div>
+
+                <div id="players-container" aria-live="polite"> <!-- Announce player updates -->
+                    <!-- Player cards will be generated here by JS -->
+                </div>
+
+                <div id="game-info-sections">
+                    <section id="game-stats" class="info-section" aria-labelledby="game-stats-heading">
+                        <h3 id="game-stats-heading">Overall Stats</h3>
+                        <ul>
+                            <li>Total Points Earned: <span id="total-points-earned">0</span></li>
+                            <li>Total Points Spent: <span id="total-points-spent">0</span></li>
+                            <li>Total Beers Consumed: <span id="total-beers">0</span></li>
+                            <li>Total Shots Taken: <span id="total-shots">0</span></li>
+                            <li>Total Revives Used: <span id="total-revives">0</span></li>
+                        </ul>
+                    </section>
+                     <section id="leaderboard" class="info-section" aria-labelledby="leaderboard-heading">
+                         <h3 id="leaderboard-heading">Leaderboard</h3>
+                         <ol id="leaderboard-list">
+                             <!-- Leaderboard items -->
+                         </ol>
+                     </section>
+                    <section id="history-log" class="info-section" aria-labelledby="history-log-heading">
+                        <h3 id="history-log-heading">Activity Log</h3>
+                        <ul id="history-log-list">
+                            <!-- History items -->
+                        </ul>
+                    </section>
+                </div>
+            </section>
+        </main>
+
+        <!-- Options Panel (Modal) -->
+        <!-- Using 'dialog' element for better accessibility -->
+        <dialog id="options-panel" class="modal-dialog">
+             <button id="close-options-btn" class="modal-close-btn" aria-label="Close settings">&times;</button>
+            <h2>Game Settings</h2>
+            <form id="options-form" method="dialog"> <!-- Use form with method=dialog -->
+                <div class="options-grid">
+                    <label for="setting-points-beer">Points per Beer:</label>
+                    <input type="number" id="setting-points-beer" min="0">
+
+                    <label for="setting-points-shot">Points per Shot:</label>
+                    <input type="number" id="setting-points-shot" min="0">
+
+                    <label for="setting-points-revive">Points per Revive:</label>
+                    <input type="number" id="setting-points-revive" min="0">
+
+                    <label for="setting-cost-redeem">Redemption Cost:</label>
+                    <input type="number" id="setting-cost-redeem" min="0">
+
+                    <label for="setting-shot-limit">Shot Limit per Player:</label>
+                    <input type="number" id="setting-shot-limit" min="0">
+                </div>
+                <div id="options-buttons">
+                    <button id="save-settings-btn" type="submit">Save Settings</button> <!-- Use type=submit -->
+                     <button type="button" id="cancel-options-btn">Cancel</button> <!-- type=button prevents form submission -->
+                </div>
+            </form>
+        </dialog>
+
+        <!-- End Game Modal -->
+        <dialog id="end-game-modal" class="modal-dialog">
+            <button id="close-end-game-btn" class="modal-close-btn" aria-label="Close game summary">&times;</button>
+             <div class="modal-content">
+                 <h2>Game Over - Stats</h2>
+                 <div id="end-game-stats">
+                     <!-- Last game stats will be injected here -->
+                 </div>
+                 <div id="challenge-question">
+                     <label for="challenge-winner">Did anyone complete the challenge?</label>
+                     <select id="challenge-winner">
+                         <option value="none">None</option>
+                         <!-- Player names will be added here -->
+                     </select>
+                 </div>
+                 <button id="confirm-new-game-btn">Start Fresh Game</button>
+            </div>
+        </dialog>
+
+        <div id="notification-area" aria-live="assertive">
+            <!-- Notifications will appear here -->
+        </div>
+    </div> <!-- /app-container -->
+
+    <section id="how-to-play" class="guide-section">
+        <h2>How to Play Zombeers</h2>
+
+        <h3>The Gist:</h3>
+        <p>You play Call of Duty: Zombies, but your only source of spendable points comes from drinks you finish IRL. Slay zombies, manage your sips, and outlast your buddies.</p>
+
+        <h3>How to Drink for the Points</h3>
+        <ul>
+            <li class="no-before-emoji"><strong>Earn Your Keep:</strong> Finish a drink = Unlock 2500 Points to spend in Zombies. This is your Drink Balance. Wall-buys, Mystery Box hits, Perks, Pack-a-Punch – it all comes from this balance.</li>
+            <li><strong>The Revive Ransom:</strong> 🧟
+                <ul>
+                    <li>Go down and died? Disaster! Your current Drink Balance resets to zero. Ouch. 🍺</li>
+                    <li>Revive a downed teammate? Cha-ching! You instantly get 500 bonus points. 🍺</li>
+                    <li><strong>The Beer Heist:</strong> As the reviver, you also gain the right to steal the downed player's current beer. Finish it, and you claim their potential 2500 points for yourself! (Many revivers demand the downed player chug a bit before picking them up – leverage is key!) 🍺</li>
+                </ul>
+            </li>
+            <li><strong>Spending Rules:</strong> Points are spent from your Drink Balance. No normal in-game points count for purchases! 🧟 Everything effectively costs points earned from finished drinks. (Think of it as needing the 2500 potential unlocked before spending). All purchases round up to the nearest 500 points, besides items that cost 750 points which round down.</li>
+        </ul>
+
+        <h3>Victory Conditions:</h3>
+        <p>The game ends when one survivor achieves the ultimate undead-and-under-the-influence bragging rights:</p>
+        <ul>
+            <li>200 Kills 🧟</li>
+            <li>75 Headshots 🧟</li>
+            <li>(BO3 Specific): Must also have your crew's pre-determined Gobblegum equipped at the time of victory. 🧟</li>
+        </ul>
+
+        <h3>Prepare for Zombeers:</h3>
+        <p>Grab your controller, crack open a cold one, and try not to feed the horde or lose your beer. Good luck!</p>
+    </section>
+    <!-- Link External JavaScript -->
+    <!-- Socket.IO client is now bundled -->
+    <!-- Load the bundled application script -->
+    <script src="dist/bundle.js"></script>
+</body>
+</html>
